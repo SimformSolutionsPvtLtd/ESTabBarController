@@ -139,6 +139,13 @@ open class ESTabBarItemContentView: UIView {
         return titleLabel
     }()
     
+    /// Check safe area guideline
+    var hasTopNotch: Bool {
+        if #available(iOS 11.0, tvOS 11.0, *) {
+            return UIApplication.shared.delegate?.window??.safeAreaInsets.top ?? 0 > 20
+        }
+        return false
+    }
     
     /// Badge value
     open var badgeValue: String? {
@@ -248,7 +255,7 @@ open class ESTabBarItemContentView: UIView {
                                                    width: titleLabel.bounds.size.width,
                                                    height: titleLabel.bounds.size.height)
                     imageView.frame = CGRect.init(x: (w - s) / 2.0,
-                                                  y: (h - s) / 2.0 - 6.0,
+                                                  y: (h - s) / 2.0 - (hasTopNotch ? 0.0 : 6.0),
                                                   width: s,
                                                   height: s)
                 }
